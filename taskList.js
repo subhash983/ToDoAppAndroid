@@ -1,6 +1,6 @@
 import {Text, ListView, View, StyleSheet, TouchableHighlight} from 'react-native';
 import React from 'react';
-import TaskRow from './taskRow';
+import TaskRow from './TaskRow/component';
 
 class TaskList extends React.Component {
     constructor(props, context) {

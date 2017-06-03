@@ -1,5 +1,6 @@
 import React from 'react';
-import {Text, StyleSheet, View, TouchableHighlight} from 'react-native'
+import {Text, StyleSheet, View, TouchableHighlight} from 'react-native';
+import Render from './render';
 
 class TaskRow extends React.Component {
     constructor(props, context) {
@@ -11,14 +12,7 @@ class TaskRow extends React.Component {
     }
 
     render() {
-        return (
-            <View style={styles.container}>
-                <Text style={styles.label}>{this.props.todo.task}..</Text>
-                <TouchableHighlight style={styles.doneButton} onPress={this.onDonePressed.bind(this)}>
-                    <Text>Done</Text>
-                </TouchableHighlight>
-            </View>
-        );
+        return Render.bind(this)(styles);
     }
 }
 
