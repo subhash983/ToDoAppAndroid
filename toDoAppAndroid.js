@@ -3,6 +3,7 @@ import {StyleSheet, View, Navigator, Text} from 'react-native';
 import {StackNavigator} from 'react-navigation';
 import TaskList from './taskList';
 import TaskFormScreen from './taskForm';
+import store from './stores/toDoStore';
 
 class HomeScreen extends React.Component {
     static navigationOptions = {
@@ -16,23 +17,19 @@ class HomeScreen extends React.Component {
     };
     constructor(props, context) {
         super(props, context);
-        this.state = {
-            todos: [
-                {
-                    task: 'Learn React Native'
-                }, {
-                    task: 'Learn Redux'
-                }
-            ]
-        }
+        this.state = store.getState();
+
+        store.subscribe(() => {
+            this.setState(store.getState());
+        });
     }
 
     componentWillMount() {
-        const {state} = this.props.navigation;
-        if (state.params && state.params.task) {
-            this.state.todos.push({task: state.params.task});
-            this.setState({todos: this.state.todos});
-        }
+        // const {state} = this.props.navigation;
+        // if (state.params && state.params.task) {
+        //     this.state.todos.push({task: state.params.task});
+        //     this.setState({todos: this.state.todos});
+        // }
     }
 
     onAddStarted() {
@@ -40,14 +37,15 @@ class HomeScreen extends React.Component {
     }
 
     onDone(todo) {
-        var indx = this.state.todos.indexOf(todo);
-        this.state.todos.splice(indx, 1);
-        this.setState({todos: this.state.todos});
+        store.dispatch({type: 'DONE_TODO', todo: todo});
+    }
+
+    onToggle() {
+        store.dispatch({type: 'TOGGLE_STATE'});
     }
 
     render() {
-
-        return (<TaskList todos={this.state.todos} onAddStarted={this.onAddStarted.bind(this)} onDone={this.onDone.bind(this)}/>);
+        return (<TaskList todos={this.state.todos} onToggle={this.onToggle.bind(this)} filter={this.state.filter} onAddStarted={this.onAddStarted.bind(this)} onDone={this.onDone.bind(this)}/>);
     }
 }
 

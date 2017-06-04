@@ -1,5 +1,6 @@
 import {Text, TextInput, View, TouchableHighlight, StyleSheet} from 'react-native';
 import React from 'react';
+import store from './stores/toDoStore';
 
 class TaskFormScreen extends React.Component {
     static navigationOptions = {
@@ -24,9 +25,12 @@ class TaskFormScreen extends React.Component {
         goBack();
     }
 
-    onAdd(task) {
+    onAdd() {
+        store.dispatch({type: 'ADD_TODO', task: this.task});
+
         const {goBack} = this.props.navigation;
-        this.props.navigation.navigate('Home', {task: this.task});
+        goBack();
+
     }
 
     onChange(text) {

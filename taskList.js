@@ -1,4 +1,11 @@
-import {Text, ListView, View, StyleSheet, TouchableHighlight} from 'react-native';
+import {
+    Text,
+    ListView,
+    View,
+    StyleSheet,
+    TouchableHighlight,
+    Switch
+} from 'react-native';
 import React from 'react';
 import TaskRow from './TaskRow/component';
 
@@ -31,6 +38,12 @@ class TaskList extends React.Component {
     render() {
         return (
             <View style={styles.container}>
+                <View style={styles.toggleRow}>
+                    <Switch style={styles.switch} onValueChange={this.props.onToggle} value={this.props.filter != 'pending'}/>
+                    <Text style={styles.toggleText}>Showing {this.props.todos.length + ' '}
+                        {this.props.filter + ' '}
+                        todo(s)</Text>
+                </View>
                 <ListView style={styles.listview} key={this.props.todos} dataSource={this.state.dataSource} renderRow={this.renderRow.bind(this)}/>
                 <TouchableHighlight style={styles.button} onPress={this.props.onAddStarted}>
                     <Text style={styles.buttonText}>Add One</Text>
@@ -43,7 +56,9 @@ class TaskList extends React.Component {
 TaskList.propTypes = {
     todos: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
     onAddStarted: React.PropTypes.func.isRequired,
-    onDone: React.PropTypes.func.isRequired
+    onDone: React.PropTypes.func.isRequired,
+    filter: React.PropTypes.string.isRequired,
+    onToggle: React.PropTypes.func.isRequired
 };
 
 const styles = StyleSheet.create({
@@ -70,6 +85,15 @@ const styles = StyleSheet.create({
         color: '#FAFAFA',
         fontSize: 20,
         fontWeight: '600'
+    },
+    toggleRow: {
+        flexDirection: 'row',
+        padding: 10
+    },
+    toggleText: {
+        fontSize: 20,
+        paddingLeft: 10,
+        paddingTop: 3
     }
 });
 
